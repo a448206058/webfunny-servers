@@ -1,0 +1,73 @@
+const db = require('../config/db')
+const Sequelize = db.sequelize;
+const {0} = Sequelize.import('../schema/{1}');
+{0}.sync({force: false});
+
+class {0}Model {
+  /**
+   * 创建{0}信息
+   * @param data
+   * @returns {Promise<*>}
+   */
+  static async create{0}(data) {
+    return await {0}.create({
+      ...data
+    })
+  }
+
+  /**
+   * 更新{0}数据
+   * @param id  用户ID
+   * @param status  事项的状态
+   * @returns {Promise.<boolean>}
+   */
+  static async update{0}(id, data) {
+    await {0}.update({
+      ...data
+    }, {
+      where: {
+        id
+      },
+      fields: Object.keys(data)
+    })
+    return true
+  }
+
+  /**
+   * 获取{0}列表
+   * @returns {Promise<*>}
+   */
+  static async get{0}List() {
+    return await {0}.findAndCountAll()
+  }
+
+  /**
+   * 获取{0}详情数据
+   * @param id  {0}的ID
+   * @returns {Promise<Model>}
+   */
+  static async get{0}Detail(id) {
+    return await {0}.findOne({
+      where: {
+        id,
+      },
+    })
+  }
+
+  /**
+   * 删除{0}
+   * @param id listID
+   * @returns {Promise.<boolean>}
+   */
+  static async delete{0}(id) {
+    await {0}.destroy({
+      where: {
+        id,
+      }
+    })
+    return true
+  }
+
+}
+
+module.exports = {0}Model
