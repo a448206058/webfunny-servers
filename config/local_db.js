@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 //远程 jeffery0712
 //本地 123456
-const sequelize = new Sequelize("myblog", "root", "QAZ2365686", {
-  host: "localhost",
+const sequelize = new Sequelize("monitor_db_1", "root", "123456", {
+  host: "112.124.36.170",
   dialect: "mysql",
   operatorsAliases: false,
   dialectOptions: {

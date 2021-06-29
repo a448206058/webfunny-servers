@@ -82,6 +82,8 @@ router.put('/behaviorInfo/:id', BehaviorInfoController.update);
 router.post('/customerPV', CustomerPVController.create);
 // 获取PV列表
 router.get('/customerPV', CustomerPVController.getCustomerPVList);
+// 获取数量
+router.get('/customerPVCount/:id', CustomerPVController.count);
 // 获取PV详情
 router.get('/customerPV/:id', CustomerPVController.detail);
 // 删除PV
