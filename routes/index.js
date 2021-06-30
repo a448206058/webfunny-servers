@@ -85,11 +85,11 @@ router.get('/customerPV', CustomerPVController.getCustomerPVList);
 // 获取数量
 router.post('/customerPVCount', CustomerPVController.count);
 // 获取活跃用户
-router.post('/customerPVActive/:id', CustomerPVController.getActive);
+router.post('/customerPVActive', CustomerPVController.getActive);
 // 获取老用户
-router.post('/customerPVOld/:id', CustomerPVController.getOld);
+router.post('/customerPVOld', CustomerPVController.getOld);
 // 获取新用户
-router.post('/customerPVNew/:id', CustomerPVController.getNew);
+router.post('/customerPVNew', CustomerPVController.getNew);
 // 获取PV详情
 router.get('/customerPV/:id', CustomerPVController.detail);
 // 删除PV
