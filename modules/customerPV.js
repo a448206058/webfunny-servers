@@ -10,7 +10,7 @@ class CustomerPVModel {
    * @param data
    * @returns {Promise<*>}
    */
-  static async createCustomerPV(data) {
+  static async createCustomerPV (data) {
     return await CustomerPV.create({
       ...data,
     });
@@ -22,7 +22,7 @@ class CustomerPVModel {
    * @param status  事项的状态
    * @returns {Promise.<boolean>}
    */
-  static async updateCustomerPV(id, data) {
+  static async updateCustomerPV (id, data) {
     await CustomerPV.update(
       {
         ...data,
@@ -41,7 +41,7 @@ class CustomerPVModel {
    * 获取CustomerPV列表
    * @returns {Promise<*>}
    */
-  static async getCustomerPVList() {
+  static async getCustomerPVList () {
     return await CustomerPV.findAndCountAll();
   }
 
@@ -50,7 +50,7 @@ class CustomerPVModel {
    * @param id  CustomerPV的ID
    * @returns {Promise<Model>}
    */
-  static async getCustomerPVDetail(id) {
+  static async getCustomerPVDetail (id) {
     return await CustomerPV.findOne({
       where: {
         id,
@@ -63,61 +63,45 @@ class CustomerPVModel {
    * @param id  CustomerPV的ID
    * @returns {Promise<Model>}
    */
-  static async getCustomerPVCount(id) {
+  static async getCustomerPVCount (id) {
     // 用户总数
     let allUser = await Sequelize.query(
       "SELECT COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId=" +
-        id
+      id
     );
 
     return allUser;
   }
 
-  /**
+   /**
    * 获取CustomerPV 新用户
    * @param id  CustomerPV的ID
    * @returns {Promise<Model>}
    */
-  static async getCustomerPVNewCount(id) {
-    // 新用户
-    let newUser = await Sequelize.query(
-      // "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
-      //   id +
-      //   " and  happenTime >= " +
-      //   new Date().setHours(0, 0, 0, 0) +
-      //   " EXCEPT " +
-      //   "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
-      //   id +
-      //   " and  happenTime < " +
-      // new Date().setHours(0, 0, 0, 0)
-
-      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
-        id +
-        " and  happenTime >= " +
-        new Date().setHours(0, 0, 0, 0) +
-        " WHERE customerKey NOT IN ( " +
+    static async getCustomerPVNew (id) {
+      // 新用户
+      let activeUser = await Sequelize.query(
         "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
         id +
-        " and  happenTime < " +
-        new Date().setHours(0, 0, 0, 0) +
-        " )"
-    );
-
-    return newUser;
-  }
+        " and  happenTime >= " +
+        new Date().setHours(0, 0, 0, 0)
+      );
+  
+      return activeUser;
+    }
 
   /**
    * 获取CustomerPV 老用户
    * @param id  CustomerPV的ID
    * @returns {Promise<Model>}
    */
-  static async getCustomerPVOldCount(id) {
+  static async getCustomerPVOld (id) {
     // 老用户
     let oldUser = await Sequelize.query(
-      "SELECT COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId=" +
-        id +
-        " and happenTime < " +
-        new Date().setHours(0, 0, 0, 0)
+      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
+      id +
+      " and happenTime < " +
+      new Date().setHours(0, 0, 0, 0)
     );
 
     return oldUser;
@@ -128,13 +112,12 @@ class CustomerPVModel {
    * @param id  CustomerPV的ID
    * @returns {Promise<Model>}
    */
-  static async getCustomerPVActiveCount(id) {
+  static async getCustomerPVActive (id) {
     // 活跃用户
     let activeUser = await Sequelize.query(
-      "SELECT COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId=" +
-        id +
-        " and  happenTime >= " +
-        new Date().setHours(0, 0, 0, 0)
+      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
+      id +
+      " and  GROUP BY  createdAt"
     );
 
     return activeUser;
@@ -145,7 +128,7 @@ class CustomerPVModel {
    * @param id listID
    * @returns {Promise.<boolean>}
    */
-  static async deleteCustomerPV(id) {
+  static async deleteCustomerPV (id) {
     await CustomerPV.destroy({
       where: {
         id,
@@ -158,7 +141,7 @@ class CustomerPVModel {
    * @param id listID
    * @returns {Promise.<boolean>}
    */
-  static async deleteCustomerPVsFifteenDaysAgo(days) {
+  static async deleteCustomerPVsFifteenDaysAgo (days) {
     const timeScope = Utils.addDays(0 - days) + " 00:00:00";
     var querySql =
       "delete from CustomerPVs where createdAt<'" + timeScope + "'";
@@ -170,13 +153,13 @@ class CustomerPVModel {
    * 获取PC错误总数
    * @returns {Promise<*>}
    */
-  static async getCustomerPvPcCount(param) {
+  static async getCustomerPvPcCount (param) {
     return await Sequelize.query(
       "SELECT COUNT(DISTINCT pageKey) as count FROM CustomerPVs WHERE webMonitorId='" +
-        param.webMonitorId +
-        "' and  createdAt > '" +
-        param.day +
-        "' and os LIKE 'web%'",
+      param.webMonitorId +
+      "' and  createdAt > '" +
+      param.day +
+      "' and os LIKE 'web%'",
       { type: Sequelize.QueryTypes.SELECT }
     );
   }
@@ -185,13 +168,13 @@ class CustomerPVModel {
    * 获取IOS错误总数
    * @returns {Promise<*>}
    */
-  static async getCustomerPvIosCount(param) {
+  static async getCustomerPvIosCount (param) {
     return await Sequelize.query(
       "SELECT COUNT(DISTINCT pageKey) as count FROM CustomerPVs WHERE webMonitorId='" +
-        param.webMonitorId +
-        "' and  createdAt > '" +
-        param.day +
-        "' and os LIKE 'ios%'",
+      param.webMonitorId +
+      "' and  createdAt > '" +
+      param.day +
+      "' and os LIKE 'ios%'",
       { type: Sequelize.QueryTypes.SELECT }
     );
   }
@@ -200,13 +183,13 @@ class CustomerPVModel {
    * 获取Android错误总数
    * @returns {Promise<*>}
    */
-  static async getCustomerPvAndroidCount(param) {
+  static async getCustomerPvAndroidCount (param) {
     return await Sequelize.query(
       "SELECT COUNT(DISTINCT pageKey) as count FROM CustomerPVs WHERE webMonitorId='" +
-        param.webMonitorId +
-        "' and  createdAt > '" +
-        param.day +
-        "' and os LIKE 'android%'",
+      param.webMonitorId +
+      "' and  createdAt > '" +
+      param.day +
+      "' and os LIKE 'android%'",
       { type: Sequelize.QueryTypes.SELECT }
     );
   }
@@ -215,7 +198,7 @@ class CustomerPVModel {
    * 获取当前用户所有的行为记录
    * @returns {Promise<*>}
    */
-  static async getBehaviorsByUser(param, customerKeySql) {
+  static async getBehaviorsByUser (param, customerKeySql) {
     // var phoneReg = /^1\d{10}$/
     // var sql = ""
     // if (phoneReg.test(param.searchValue)) {
@@ -237,7 +220,7 @@ class CustomerPVModel {
    * 根据userId获取到所有的customerKey
    * @returns {Promise<*>}
    */
-  static async getCustomerKeyByUserId(param) {
+  static async getCustomerKeyByUserId (param) {
     const createdAtTime = Utils.addDays(0 - param.timeScope) + " 00:00:00";
     const sql =
       "select DISTINCT(customerKey) from CustomerPVs where createdAt>'" +

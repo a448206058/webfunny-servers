@@ -83,7 +83,13 @@ router.post('/customerPV', CustomerPVController.create);
 // 获取PV列表
 router.get('/customerPV', CustomerPVController.getCustomerPVList);
 // 获取数量
-router.get('/customerPVCount/:id', CustomerPVController.count);
+router.post('/customerPVCount', CustomerPVController.count);
+// 获取活跃用户
+router.post('/customerPVActive/:id', CustomerPVController.getActive);
+// 获取老用户
+router.post('/customerPVOld/:id', CustomerPVController.getOld);
+// 获取新用户
+router.post('/customerPVNew/:id', CustomerPVController.getNew);
 // 获取PV详情
 router.get('/customerPV/:id', CustomerPVController.detail);
 // 删除PV

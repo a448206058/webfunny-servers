@@ -66,23 +66,52 @@ class CustomerPVController {
    * @returns {Promise.<void>}
    */
   static async count(ctx) {
-    let id = ctx.params.id;
-    if (id) {
-      let data = await CustomerPVModel.getCustomerPVCount(id);
+    const param = ctx.request.body;
+    const value = JSON.parse(param.data);
+    if (value.id) {
+      let data = await CustomerPVModel.getCustomerPVCount(value.id);
 
-      let newCount = await CustomerPVModel.getCustomerPVNewCount(id);
-
-      // let oldCount = await CustomerPVModel.getCustomerPVOldCount(id);
-
-      let activeCount = await CustomerPVModel.getCustomerPVActiveCount(id);
-
-      // console.log(newCount)
-      // console.log(oldCount)
-      console.log(newCount);
-
-      // let data = await CustomerPVModel.getCustomerPVDetail(id);
       ctx.response.status = 200;
       ctx.body = statusCode.SUCCESS_200("查询成功！", data[0]);
+    } else {
+      ctx.response.status = 412;
+      ctx.body = statusCode.ERROR_412("信息ID必须传");
+    }
+  }
+
+  static async getNew(ctx) {
+    const param = ctx.request.body;
+    const value = JSON.parse(param.data);
+    if (value.id) {
+      let newCount = await CustomerPVModel.getCustomerPVNew(value.id);
+      ctx.response.status = 200;
+      ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
+    } else {
+      ctx.response.status = 412;
+      ctx.body = statusCode.ERROR_412("信息ID必须传");
+    }
+  }
+
+  static async getOld(ctx) {
+    const param = ctx.request.body;
+    const value = JSON.parse(param.data);
+    if (value.id) {
+      let newCount = await CustomerPVModel.getCustomerPVOld(value.id);
+      ctx.response.status = 200;
+      ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
+    } else {
+      ctx.response.status = 412;
+      ctx.body = statusCode.ERROR_412("信息ID必须传");
+    }
+  }
+
+  static async getActive(ctx) {
+    const param = ctx.request.body;
+    const value = JSON.parse(param.data);
+    if (value.id) {
+      let newCount = await CustomerPVModel.getCustomerPVActive(value.id);
+      ctx.response.status = 200;
+      ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
     } else {
       ctx.response.status = 412;
       ctx.body = statusCode.ERROR_412("信息ID必须传");
