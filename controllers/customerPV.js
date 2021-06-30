@@ -67,9 +67,9 @@ class CustomerPVController {
    */
   static async count(ctx) {
     const param = ctx.request.body;
-    const value = JSON.parse(param.data);
-    if (value.id) {
-      let data = await CustomerPVModel.getCustomerPVCount(value.id);
+    // const value = JSON.parse(param.data);
+    if (param.id) {
+      let data = await CustomerPVModel.getCustomerPVCount(param.id);
 
       ctx.response.status = 200;
       ctx.body = statusCode.SUCCESS_200("查询成功！", data[0]);
@@ -81,9 +81,8 @@ class CustomerPVController {
 
   static async getNew(ctx) {
     const param = ctx.request.body;
-    const value = JSON.parse(param.data);
-    if (value.id) {
-      let newCount = await CustomerPVModel.getCustomerPVNew(value.id);
+    if (param.id) {
+      let newCount = await CustomerPVModel.getCustomerPVNew(param.id);
       ctx.response.status = 200;
       ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
     } else {
@@ -94,9 +93,8 @@ class CustomerPVController {
 
   static async getOld(ctx) {
     const param = ctx.request.body;
-    const value = JSON.parse(param.data);
-    if (value.id) {
-      let newCount = await CustomerPVModel.getCustomerPVOld(value.id);
+    if (param.id) {
+      let newCount = await CustomerPVModel.getCustomerPVOld(param.id);
       ctx.response.status = 200;
       ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
     } else {
@@ -107,9 +105,8 @@ class CustomerPVController {
 
   static async getActive(ctx) {
     const param = ctx.request.body;
-    const value = JSON.parse(param.data);
-    if (value.id) {
-      let newCount = await CustomerPVModel.getCustomerPVActive(value.id);
+    if (param.id) {
+      let newCount = await CustomerPVModel.getCustomerPVActive(param.id);
       ctx.response.status = 200;
       ctx.body = statusCode.SUCCESS_200("查询成功！", newCount[0]);
     } else {

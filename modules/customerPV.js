@@ -66,29 +66,29 @@ class CustomerPVModel {
   static async getCustomerPVCount (id) {
     // 用户总数
     let allUser = await Sequelize.query(
-      "SELECT COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId=" +
-      id
+      "SELECT COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId='" +
+      id + "'"
     );
 
     return allUser;
   }
 
-   /**
-   * 获取CustomerPV 新用户
-   * @param id  CustomerPV的ID
-   * @returns {Promise<Model>}
-   */
-    static async getCustomerPVNew (id) {
-      // 新用户
-      let activeUser = await Sequelize.query(
-        "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
-        id +
-        " and  happenTime >= " +
-        new Date().setHours(0, 0, 0, 0)
-      );
-  
-      return activeUser;
-    }
+  /**
+  * 获取CustomerPV 新用户
+  * @param id  CustomerPV的ID
+  * @returns {Promise<Model>}
+  */
+  static async getCustomerPVNew (id) {
+    // 新用户
+    let activeUser = await Sequelize.query(
+      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId='" +
+      id +
+      "' and  happenTime >= " +
+      new Date().setHours(0, 0, 0, 0)
+    );
+
+    return activeUser;
+  }
 
   /**
    * 获取CustomerPV 老用户
@@ -98,9 +98,9 @@ class CustomerPVModel {
   static async getCustomerPVOld (id) {
     // 老用户
     let oldUser = await Sequelize.query(
-      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
+      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId='" +
       id +
-      " and happenTime < " +
+      "' and happenTime < " +
       new Date().setHours(0, 0, 0, 0)
     );
 
@@ -115,10 +115,18 @@ class CustomerPVModel {
   static async getCustomerPVActive (id) {
     // 活跃用户
     let activeUser = await Sequelize.query(
-      "SELECT DISTINCT customerKey FROM CustomerPVs WHERE webMonitorId=" +
+      // "SELECT happenTime, COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId='" +
+      // id +
+      // "'  GROUP BY happenTime"
+
+      "SELECT DATE_FORMAT(createdAt,'%Y%m%d') days,COUNT(DISTINCT customerKey) COUNT FROM CustomerPVs WHERE webMonitorId='" +
       id +
-      " and  GROUP BY  createdAt"
+      "' GROUP BY days"
     );
+
+    
+
+    console.log(activeUser)
 
     return activeUser;
   }
