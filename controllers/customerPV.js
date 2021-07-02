@@ -79,6 +79,25 @@ class CustomerPVController {
     }
   }
 
+    /**
+   * 根据监控ID查询每天的访问量
+   * @param ctx
+   * @returns {Promise.<void>}
+   */
+     static async dayCount(ctx) {
+      const param = ctx.request.body;
+      // const value = JSON.parse(param.data);
+      if (param.id) {
+        let data = await CustomerPVModel.getCustomerPVDayCount(param.id);
+  
+        ctx.response.status = 200;
+        ctx.body = statusCode.SUCCESS_200("查询成功！", data[0]);
+      } else {
+        ctx.response.status = 412;
+        ctx.body = statusCode.ERROR_412("信息ID必须传");
+      }
+    }
+
   static async getNew(ctx) {
     const param = ctx.request.body;
     if (param.id) {

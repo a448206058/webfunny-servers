@@ -123,11 +123,25 @@ class CustomerPVModel {
       id +
       "' GROUP BY days"
     );
+    return activeUser;
+  }
 
-    
+  /**
+   * 获取CustomerPV 访问量
+   * @param id  CustomerPV的ID
+   * @returns {Promise<Model>}
+   */
+   static async getCustomerPVDayCount (id) {
+    // 活跃用户
+    let activeUser = await Sequelize.query(
+      // "SELECT happenTime, COUNT(DISTINCT customerKey) as count FROM CustomerPVs WHERE webMonitorId='" +
+      // id +
+      // "'  GROUP BY happenTime"
 
-    console.log(activeUser)
-
+      "SELECT DATE_FORMAT(createdAt,'%Y%m%d') days,COUNT(customerKey) COUNT FROM CustomerPVs WHERE webMonitorId='" +
+      id +
+      "' GROUP BY days"
+    );
     return activeUser;
   }
 

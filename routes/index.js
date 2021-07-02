@@ -88,6 +88,8 @@ router.get("/customerPV", CustomerPVController.getCustomerPVList);
 router.post("/customerPVCount", CustomerPVController.count);
 // 获取活跃用户
 router.post("/customerPVActive", CustomerPVController.getActive);
+// 获取每天的访问量
+router.post("/customerPVCountDay", CustomerPVController.dayCount);
 // 获取老用户
 router.post("/customerPVOld", CustomerPVController.getOld);
 // 获取新用户
