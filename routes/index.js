@@ -62,6 +62,8 @@ router.post("/project", ProjectController.create);
 router.get("/projectDetail/:id", ProjectController.detail);
 // 获取应用列表
 router.get("/project/list", ProjectController.getProjectList);
+// 获取应用列表
+router.post("/project/delete", ProjectController.delete);
 
 /**
  * 行为信息接口

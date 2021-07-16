@@ -107,7 +107,6 @@ class JavascriptErrorInfoController {
    * @returns {Promise.<void>}
    */
   static async getJavascriptErrorSort(ctx) {
-    const param = JSON.parse(ctx.request.body)
     let errorSortList = []
     await JavascriptErrorInfoModel.getJavascriptErrorSort(param).then(data => {
       errorSortList = data

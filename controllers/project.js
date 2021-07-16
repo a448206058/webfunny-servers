@@ -65,9 +65,14 @@ class ProjectController {
    * @returns {Promise.<void>}
    */
   static async delete(ctx) {
-    let id = ctx.params.id;
-
+    // let id = ctx.params.id;
+    // console.log(ctx)
+   
+    const param = ctx.request.body;
+    let id = param.id;
+    console.log(id)
     if (id && !isNaN(id)) {
+      console.log(id)
       await ProjectModel.deleteProject(id);
 
       ctx.response.status = 200;
