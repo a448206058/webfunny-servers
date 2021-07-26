@@ -7,6 +7,16 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+var fs = require('fs')
+let https = require("https")
+
+const httpsOption = {
+  key: fs.readFileSync(__dirname + "/5985932_liude.co.key"),  // 后面的半段改为自己的证书位置
+  cert: fs.readFileSync(__dirname + "/5985932_liude.co.pem")
+}
+
+var httpsServer = https.createServer(httpsOption, app) // 创建https服务
+httpsServer.listen(443);
 
 /**
  * Get port from environment and store in Express.
@@ -33,7 +43,7 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val) {
+function normalizePort (val) {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -53,7 +63,7 @@ function normalizePort(val) {
  * Event listener for HTTP server "error" event.
  */
 
-function onError(error) {
+function onError (error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -81,7 +91,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+function onListening () {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
